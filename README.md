@@ -1,2 +1,5 @@
 # Stellar Payment Dapp
-
+Stellar Payment DApp is a decentralized web application built on the Stellar Testnet that enables users to connect their crypto wallet, view their XLM balance, and send payments seamlessly — all through a clean and intuitive interface.
+The application integrates the Freighter Wallet for secure, browser-based authentication, allowing users to connect and disconnect their wallet with a single click. Once connected, the DApp automatically fetches and displays the user's live XLM balance from the Stellar Testnet, giving real-time visibility into their funds.
+At its core, the DApp features a complete XLM transaction flow — users can input a recipient's Stellar address and amount, submit the transaction, and instantly receive feedback on whether it succeeded or failed, along with the transaction hash for verification on the blockchain.
+Built with a strong emphasis on development standards, the project follows best practices across UI setup, wallet integration, balance fetching, transaction logic, and robust error handling — ensuring a reliable and user-friendly experience from end to end.
