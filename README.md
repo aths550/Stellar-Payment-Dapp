@@ -1,2 +1,2 @@
-# Stellar-
-A Stellar project
+# Stellar Payment Dapp
+
