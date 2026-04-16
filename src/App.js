@@ -41,8 +41,7 @@ const HORIZON_ERRORS = {
   tx_bad_auth: 'Insufficient signatures for the transaction.',
 };
 
-const isFreighterAvailable = () =>
-  typeof window !== 'undefined' && typeof window.freighterApi !== 'undefined';
+// Removed manual window.freighterApi check to rely on @stellar/freighter-api async detection
 
 const getFriendlyTxErrorMessage = (error) => {
   const rawMessage = (error?.message || '').toLowerCase();
@@ -87,17 +86,21 @@ function App() {
   // ─── Connect Wallet ────────────────────────────────────────────────────────
   const connectWallet = async () => {
     try {
+      console.log('Attempting to connect wallet...');
       setShowTxHash(false);
+      setStatus({ message: 'Searching for Freighter...', type: 'info' });
 
-      // 1. Check if the Freighter extension is installed
-      if (!isFreighterAvailable()) {
+      // 1. Check if the Freighter extension is installed and responding
+      const { isConnected: isInstalled, error: connErr } = await checkFreighterInstalled();
+      
+      if (!isInstalled) {
         setStatus({
-          message: 'Freighter wallet not installed. Please install the Freighter browser extension.',
+          message: 'Freighter wallet not detected. Please ensure the extension is installed, enabled, and unlocked.',
           type: 'error',
         });
+        console.error('Freighter not found via isConnected():', connErr);
         return;
       }
-      const { error: connErr } = await checkFreighterInstalled();
       if (connErr) {
         setStatus({
           message: 'Unable to connect to Freighter. Please unlock the extension and try again.',
@@ -107,6 +110,7 @@ function App() {
       }
 
       // 2. Request access — opens the Freighter popup the first time
+      console.log('Requesting access from Freighter...');
       const { address, error: accessErr } = await requestAccess();
       if (accessErr) {
         setStatus({
@@ -277,9 +281,11 @@ function App() {
     setTxHash('');
     setShowTxHash(false);
 
-    if (!isFreighterAvailable()) {
+    // Initial presence check
+    const { isConnected: isInstalled } = await checkFreighterInstalled();
+    if (!isInstalled) {
       setStatus({
-        message: 'Freighter wallet not installed. Please install Freighter to sign transactions.',
+        message: 'Freighter wallet not detected. Please install Freighter to sign transactions.',
         type: 'error',
       });
       return;

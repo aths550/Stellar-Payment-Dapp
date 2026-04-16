@@ -65,7 +65,7 @@ function Dashboard() {
       }
     } catch (err) {
       console.error(err);
-      setError('Failed to securely connect to Backend Database API.');
+      setError(`Backend Error: ${err.message}`);
     } finally {
       setLoading(false);
     }

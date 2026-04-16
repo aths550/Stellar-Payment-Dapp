@@ -12,6 +12,12 @@ const JWT_SECRET = 'your_super_secret_jwt_key_123'; // In production, move to .e
 app.use(cors());
 app.use(express.json());
 
+// Request logging for troubleshooting
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
 // ─── AUTH MIDDLEWARE ───────────────────────────────────────────────────────
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -134,6 +140,6 @@ app.put('/api/requests/:id/pay', (req, res) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`Backend Database API is securely running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Backend Database API is securely running on http://0.0.0.0:${PORT}`);
 });
