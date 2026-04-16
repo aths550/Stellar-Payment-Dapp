@@ -1,0 +1,21 @@
+body {
+    font-family: Arial;
+    margin: 40px;
+}
+
+button {
+    padding: 10px;
+    margin: 5px;
+}
+
+input {
+    display: block;
+    margin: 10px 0;
+    padding: 8px;
+    width: 300px;
+}
+
+#status {
+    font-weight: bold;
+    color: green;
+}
